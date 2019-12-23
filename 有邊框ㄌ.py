@@ -7,6 +7,8 @@ import random
 from collections import deque
 
 import pygame
+from pygame.locals import MOUSEBUTTONUP, QUIT
+
 
 Color = {
     1: (0, 206, 209),
