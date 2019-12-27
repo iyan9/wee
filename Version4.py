@@ -1,5 +1,10 @@
 '''
-修改了一些[重新整理功能]的bug
+1. 第二個按鈕功能寫完了
+   - 點擊後，隨機一個顏色的所有色塊會全部消掉
+2. 修改了一些小bug
+   - 不會再有色塊吊出螢幕了
+   - 還有一些我忘了
+
 '''
 
 import random
@@ -99,7 +104,12 @@ class Xiaoxiaole:
         # 点击坐标点，如果有消除动作，则返回True，如果没有消除动作返回False
         x = pos[0] // 40 - 1  # x -1
         y = 9 - (pos[1] // 40) + 1  # y+1
-        # self.group.remove(self.chess[x][y][1])
+
+        # 判斷點擊座標是否有在棋盤格內，如果沒有則回傳False
+        if x < 0 or x > 9:
+            return False
+        elif y < 0 or y > 9:
+            return False
 
         # 判断x y是否在chess中
         if len(self.chess) <= x:
@@ -158,6 +168,38 @@ class Xiaoxiaole:
             self.chess.append(x_line)
         return True
 
+
+    def tool_3(self):
+        changed_set = set()
+        color = random.randint(1, 5)
+        for x in range(len(self.chess)):
+            for y in range (len(self.chess[x])):
+                if self.chess[x][y][0] == color:
+                    changed_set.add((x,y))
+
+        if len(changed_set) >= 1:
+            for changed_point in changed_set:
+                self.group.remove(self.chess[changed_point[0]][changed_point[1]])
+                for y_num in range(changed_point[1], len(self.chess[changed_point[0]])):
+                    self.chess[changed_point[0]][y_num][1].change_y += 1
+
+        to_change = sorted(changed_set, key=lambda x: x[1], reverse=True)
+        for changed_point in to_change:
+            del self.chess[changed_point[0]][changed_point[1]]
+
+        for index, _ in enumerate(self.chess):
+            if not self.chess[index]:
+                # 将右侧所有节点向左移动一格
+                for x_line in range(index + 1, len(self.chess)):
+                    for y_line in range(0, len(self.chess[x_line])):
+                        self.chess[x_line][y_line][1].change_x += 1
+
+        for index in range(len(self.chess) - 1, -1, -1):
+            if not self.chess[index]:
+                del self.chess[index]
+        return True
+
+
 pygame.init()
 screen = pygame.display.set_mode([480, 520])  # 開新視窗
 bg = pygame.Surface([480, 520])  # 建立畫布
@@ -179,13 +221,19 @@ while True:
     switchIconPosY = 440
     switchIconHeight = 50
     switchIconWidth = 50
+    
+    delcolorIcon = pygame.image.load("C:\\Users\\Matty\\Desktop\\play-512.png")
+    delcolorIconrect = delcolorIcon.get_rect()
+    delcolorIconPosX = 300
+    delcolorIconPosY = 440
+    delcolorIconWidth = 50
+    delcolorIconHeight = 50
 
     if event.type == QUIT:
         exit()
     elif event.type == MOUSEBUTTONUP:
         if (switchIconPosX - 4 < pygame.mouse.get_pos()[0] < switchIconPosX - 4 + switchIconWidth and
             switchIconPosY - 4 < pygame.mouse.get_pos()[1] < switchIconPosY - 4 + switchIconHeight):
-            pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 520], 0)
             xiaoxiaole.rearrange()
             switchIcon = pygame.Surface([50, 50])
             switchIcon.fill([0, 0, 0])
@@ -196,19 +244,32 @@ while True:
             group.draw(screen)
             pygame.display.update()
 
+        elif (delcolorIconPosX - 4 < pygame.mouse.get_pos()[0] < delcolorIconPosX - 4 + delcolorIconWidth and
+            delcolorIconPosY - 4 < pygame.mouse.get_pos()[1] < delcolorIconPosY - 4 + delcolorIconHeight):
+            xiaoxiaole.tool_3()
+            delcolorIcon = pygame.Surface([50, 50])
+            delcolorIcon.fill([0, 0, 0])
+            screen.blit(delcolorIcon, (delcolorIconPosX, delcolorIconPosY))
+            group.update()
+            group.clear(screen, bg)
+            group.draw(screen)
+            pygame.display.update()
+
         else:
-            pygame.draw.rect(screen, (0, 0, 0), [0, 440, 350, 80], 0)
             xiaoxiaole.client(event.pos)
             group.update()
             group.clear(screen, bg)
             group.draw(screen)
             pygame.display.update()
 
-        if xiaoxiaole.delete_cnt() >= 6:
+        if 3 <= xiaoxiaole.delete_cnt() < 6:
             screen.blit(switchIcon, (switchIconPosX, switchIconPosY))
             pygame.display.update()
+        elif xiaoxiaole.delete_cnt() >= 6:
+            screen.blit(delcolorIcon, (delcolorIconPosX, delcolorIconPosY))
+            pygame.display.update()
             
-
+        pygame.draw.rect(screen, (0, 0, 0), [0, 440, 200, 80], 0)
         my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
         outline1 = 'score : {0}'.format(xiaoxiaole.get_score())
         out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
