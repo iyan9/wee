@@ -41,7 +41,7 @@ class Box(pygame.sprite.Sprite):
 
 class Xiaoxiaole:
     def __init__(self, group, score):
-        # 生成棋盘，传入参数为精灵group
+        # 生成棋盘，傳入參數為精靈group
         self.level = 1
         self.scores = score
         self.blocks_left = 0
@@ -110,7 +110,7 @@ class Xiaoxiaole:
         return self.level
 
     def search(self, x, y):
-        # 获取x y 节点附近的相同节点坐标，如果没有相同的返回None
+        # 獲取x y 節點附近的相同節點座標，如果没有相同的返回None
         point_value = self.chess[x][y][0]
         out = set()
         out.add((x, y))
@@ -118,7 +118,7 @@ class Xiaoxiaole:
         deq.append((x, y))
 
         while len(deq):
-            # 广度优先搜索
+            # 廣度優先搜索
             now = deq.popleft()
             neighbors = [(now[0] - 1, now[1]), (now[0] + 1, now[1]),
                          (now[0], now[1] - 1), (now[0], now[1] + 1)]
@@ -142,7 +142,7 @@ class Xiaoxiaole:
         return self.deleteCnt
     
     def client(self, pos):
-        # 点击坐标点，如果有消除动作，则返回True，如果没有消除动作返回False
+        # 點擊座標點，如果有消除動作，則返回True，如果没有消除動作返回False
         x = pos[0] // 40 - 1  # x -1
         y = 9 - (pos[1] // 40) + 1  # y+1
 
@@ -158,7 +158,7 @@ class Xiaoxiaole:
         if len(self.chess[x]) <= y:
             return False
 
-        # 搜索相邻的节点，返回set
+        # 搜索相鄰的節点，返回set
         to_del_set = self.search(x, y)
         if not to_del_set:
             return False
@@ -168,10 +168,10 @@ class Xiaoxiaole:
         
         self.deleteCnt = len(to_del_set)
 
-        # 删除节点
+        # 删除節點
         for point in to_del_set:
             self.group.remove(self.chess[point[0]][point[1]])
-            #  处理在这个节点上部的移动标记
+            #  處理在這個節點上部的移動標記
             for y_num in range(point[1], len(self.chess[point[0]])):
                 self.chess[point[0]][y_num][1].change_y += 1
 
@@ -182,7 +182,7 @@ class Xiaoxiaole:
         # 删除空列
         for index, _ in enumerate(self.chess):
             if not self.chess[index]:
-                # 将右侧所有节点向左移动一格
+                # 將右側所有節點向左移動一格
                 for x_line in range(index + 1, len(self.chess)):
                     for y_line in range(0, len(self.chess[x_line])):
                         self.chess[x_line][y_line][1].change_x += 1
@@ -358,6 +358,7 @@ while True:
                 group.clear(screen, bg)
                 group.draw(screen)
                 pygame.display.update()
+
         # elif event.type == KEYDOWN:
             # if event.key == K_SPACE:
                 # pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 440], 0)  # 填滿黑色
