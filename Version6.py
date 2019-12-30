@@ -13,7 +13,7 @@ import random
 from collections import deque
 
 import pygame
-from pygame.locals import MOUSEBUTTONUP, QUIT
+from pygame.locals import KEYDOWN, MOUSEBUTTONUP, QUIT
 
 Color = {
     1: (0, 206, 209),
@@ -48,6 +48,7 @@ class Xiaoxiaole:
         self.level = 1
         self.scores = score
         self.blocks_left = 0
+        self.bonus = 0
         self.deleteCnt = 0
         self.chess = []
         self.group = group
@@ -72,9 +73,13 @@ class Xiaoxiaole:
         return False
     
     def get_blocks_left(self):
+        return self.blocks_left
+    
+    def get_bonus(self):
         if self.blocks_left < 10:
             self.scores += (10 - self.blocks_left)*100
-        return self.blocks_left
+        self.bonus = (10 - self.blocks_left)*100
+        return self.bonus
 
     def next_level(self, level):
         target = [900, 2100, 3700, 5800, 8500, 11900, 16100]
@@ -247,8 +252,29 @@ level = 1
 score = 0
 group = pygame.sprite.Group()  # 建立一組動畫
 xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
+clock = pygame.time.Clock()  # 設定遊戲時間
+pygame.event.set_allowed([QUIT, MOUSEBUTTONUP])  # 設定哪些按鍵可以操作遊戲(結束, 滑鼠按鍵鬆開)
+
+'''設定「重新整理」道具按鈕的位置跟image'''
+switchIcon = pygame.image.load("C:\\Users\\Matty\\Desktop\\商管程式設計\\wee\\brush.png")
+switchIcon = pygame.transform.scale(switchIcon, (50, 50))
+switchIconrect = switchIcon.get_rect()
+switchIconPosX = 400
+switchIconPosY = 450
+switchIconHeight = 50
+switchIconWidth = 50
+
+'''設定「消除隨機一色的所有方塊」道具按鈕的位置跟image'''
+delcolorIcon = pygame.image.load("C:\\Users\\Matty\\Desktop\\商管程式設計\\wee\\switchIcon.png")
+delcolorIcon = pygame.transform.scale(delcolorIcon, (50, 50))
+delcolorIconrect = delcolorIcon.get_rect()
+delcolorIconPosX = 350
+delcolorIconPosY = 450
+delcolorIconWidth = 50
+delcolorIconHeight = 50
+
+
 group.draw(screen)
-pygame.draw.rect(screen, (0, 0, 0), [0, 440, 260, 80], 0)
 my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
 outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
 outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
@@ -260,32 +286,13 @@ screen.blit(out1, (120, 470))  # 顯示這行字
 screen.blit(out2, (10, 450))  # 顯示這行字   
 screen.blit(out3, (120, 450))  # 顯示這行字
 pygame.display.update()  # 顯示最新更新
-clock = pygame.time.Clock()  # 設定遊戲時間
-pygame.event.set_allowed([QUIT, MOUSEBUTTONUP])  # 設定哪些按鍵可以操作遊戲(結束, 滑鼠按鍵鬆開)
 
 
 while True:
     clock.tick(30)
     event = pygame.event.poll()  # 獲取一個事件
-    
-    switchIcon = pygame.image.load("C:\\Users\\Matty\\Desktop\\商管程式設計\\wee\\brush.png")
-    switchIcon = pygame.transform.scale(switchIcon, (50, 50))
-    switchIconrect = switchIcon.get_rect()
-    switchIconPosX = 400
-    switchIconPosY = 450
-    switchIconHeight = 50
-    switchIconWidth = 50
-    
-    delcolorIcon = pygame.image.load("C:\\Users\\Matty\\Desktop\\商管程式設計\\wee\\switchIcon.png")
-    delcolorIcon = pygame.transform.scale(delcolorIcon, (50, 50))
-    delcolorIconrect = delcolorIcon.get_rect()
-    delcolorIconPosX = 350
-    delcolorIconPosY = 450
-    delcolorIconWidth = 50
-    delcolorIconHeight = 50
-
     if event.type == QUIT:
-        exit()
+        exit() 
     elif event.type == MOUSEBUTTONUP:
         if (switchIconPosX - 4 < pygame.mouse.get_pos()[0] < switchIconPosX - 4 + switchIconWidth and
             switchIconPosY - 4 < pygame.mouse.get_pos()[1] < switchIconPosY - 4 + switchIconHeight):
@@ -347,7 +354,7 @@ while True:
             outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
             outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
             outline4 = 'Blocks left : {0}'.format(xiaoxiaole.get_blocks_left())
-            outline5 = 'Bonus points : +{0}'.format((10 - xiaoxiaole.get_blocks_left())*100)
+            outline5 = 'Bonus points : +{0}'.format(xiaoxiaole.get_bonus())
             out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
             out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
             out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
@@ -360,7 +367,7 @@ while True:
             screen.blit(out5, (140, 200))  # 顯示這行字
             pygame.display.update()
             pygame.time.wait(2500)
-            pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 440], 0)
+            pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480,520], 0)
             if not xiaoxiaole.next_level(level):
                 if level == 7:    # 若7關全過，出現「獲勝」畫面
                     pygame.draw.rect(screen, (0, 0, 0), [0, 440, 480, 80], 0)
