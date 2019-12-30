@@ -255,23 +255,16 @@ xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
 clock = pygame.time.Clock()  # 設定遊戲時間
 pygame.event.set_allowed([QUIT, MOUSEBUTTONUP])  # 設定哪些按鍵可以操作遊戲(結束, 滑鼠按鍵鬆開)
 
-'''設定「重新整理」道具按鈕的位置跟image'''
-switchIcon = pygame.image.load("C:\\Users\\Matty\\Desktop\\商管程式設計\\wee\\brush.png")
-switchIcon = pygame.transform.scale(switchIcon, (50, 50))
-switchIconrect = switchIcon.get_rect()
-switchIconPosX = 400
-switchIconPosY = 450
-switchIconHeight = 50
-switchIconWidth = 50
 
-'''設定「消除隨機一色的所有方塊」道具按鈕的位置跟image'''
-delcolorIcon = pygame.image.load("C:\\Users\\Matty\\Desktop\\商管程式設計\\wee\\switchIcon.png")
-delcolorIcon = pygame.transform.scale(delcolorIcon, (50, 50))
-delcolorIconrect = delcolorIcon.get_rect()
-delcolorIconPosX = 350
-delcolorIconPosY = 450
-delcolorIconWidth = 50
-delcolorIconHeight = 50
+
+# '''設定「開始」按鈕的位置跟image'''
+# delcolorIcon = pygame.image.load("C:\\Users\\Matty\\Desktop\\商管程式設計\\wee\\switchIcon.png")
+# delcolorIcon = pygame.transform.scale(delcolorIcon, (50, 50))
+# delcolorIconrect = delcolorIcon.get_rect()
+# delcolorIconPosX = 350
+# delcolorIconPosY = 450
+# delcolorIconWidth = 50
+# delcolorIconHeight = 50
 
 
 group.draw(screen)
@@ -291,6 +284,26 @@ pygame.display.update()  # 顯示最新更新
 while True:
     clock.tick(30)
     event = pygame.event.poll()  # 獲取一個事件
+    
+    '''設定「重新整理」道具按鈕的位置跟image'''
+    switchIcon = pygame.image.load("C:\\Users\\Matty\\Desktop\\商管程式設計\\wee\\switchIcon.png")
+    switchIcon = pygame.transform.scale(switchIcon, (50, 50))
+    switchIconrect = switchIcon.get_rect()
+    switchIconPosX = 400
+    switchIconPosY = 450
+    switchIconHeight = 50
+    switchIconWidth = 50
+
+    '''設定「消除隨機一色的所有方塊」道具按鈕的位置跟image'''
+    delcolorIcon = pygame.image.load("C:\\Users\\Matty\\Desktop\\商管程式設計\\wee\\brush.png")
+    delcolorIcon = pygame.transform.scale(delcolorIcon, (50, 50))
+    delcolorIconrect = delcolorIcon.get_rect()
+    delcolorIconPosX = 350
+    delcolorIconPosY = 450
+    delcolorIconWidth = 50
+    delcolorIconHeight = 50
+    
+    
     if event.type == QUIT:
         exit() 
     elif event.type == MOUSEBUTTONUP:
