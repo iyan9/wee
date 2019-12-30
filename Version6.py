@@ -360,6 +360,7 @@ while True:
             screen.blit(out5, (140, 200))  # 顯示這行字
             pygame.display.update()
             pygame.time.wait(2500)
+            pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 440], 0)
             if not xiaoxiaole.next_level(level):
                 if level == 7:    # 若7關全過，出現「獲勝」畫面
                     pygame.draw.rect(screen, (0, 0, 0), [0, 440, 480, 80], 0)
