@@ -4,6 +4,7 @@
 2. 新增了restart鍵
    - 遊戲失敗跟通過都可以restart(或按SPACE鍵)
 
+3. 遊戲進行中也可以按SPACE鍵來restart
 '''
 
 import random
@@ -359,26 +360,6 @@ while True:
                 group.draw(screen)
                 pygame.display.update()
 
-        # elif event.type == KEYDOWN:
-            # if event.key == K_SPACE:
-                # pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 440], 0)  # 填滿黑色
-                # level = 1 
-                # score = 0
-                # group = pygame.sprite.Group()  # 建立一組動畫
-                # xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
-                # group.draw(screen)
-                # my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
-                # outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
-                # outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
-                # outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
-                # out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
-                # out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
-                # out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
-                # screen.blit(out1, (120, 470))  # 顯示這行字   
-                # screen.blit(out2, (10, 450))  # 顯示這行字   
-                # screen.blit(out3, (120, 450))  # 顯示這行字
-                # pygame.display.update()  # 顯示最新更新
-
             if 9 <= xiaoxiaole.delete_cnt() < 12:
                 screen.blit(switchIcon, (switchIconPosX, switchIconPosY))
                 pygame.display.update()
@@ -457,6 +438,26 @@ while True:
                     screen.blit(out2, (10, 450))  # 顯示這行字   
                     screen.blit(out3, (120, 450))  # 顯示這行字
                     pygame.display.update()
+        
+        elif event.type == KEYDOWN:
+            if event.key == K_SPACE:
+                pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 520], 0)  # 填滿黑色
+                level = 1 
+                score = 0
+                group = pygame.sprite.Group()  # 建立一組動畫
+                xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
+                group.draw(screen)
+                my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
+                outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
+                outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
+                outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
+                out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
+                out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
+                out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
+                screen.blit(out1, (120, 470))  # 顯示這行字   
+                screen.blit(out2, (10, 450))  # 顯示這行字   
+                screen.blit(out3, (120, 450))  # 顯示這行字
+                pygame.display.update()  # 顯示最新更新
 
     while True:
         clock.tick(30)
