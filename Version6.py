@@ -93,7 +93,7 @@ class Xiaoxiaole:
         return self.scores
     
     def get_target(self, level):
-        target = [10000, 2100, 3700, 5800, 8500, 11900, 16100]
+        target = [900, 2100, 3700, 5800, 8500, 11900, 16100]
         return target[level-1]
 
     def get_level(self):
