@@ -78,7 +78,7 @@ class Xiaoxiaole:
     def get_bonus(self):
         if self.blocks_left < 10:
             self.scores += (10 - self.blocks_left)*100
-        self.bonus = (10 - self.blocks_left)*100
+            self.bonus = (10 - self.blocks_left)*100
         return self.bonus
 
     def next_level(self, level):
@@ -93,7 +93,7 @@ class Xiaoxiaole:
         return self.scores
     
     def get_target(self, level):
-        target = [900, 2100, 3700, 5800, 8500, 11900, 16100]
+        target = [10000, 2100, 3700, 5800, 8500, 11900, 16100]
         return target[level-1]
 
     def get_level(self):
@@ -332,7 +332,6 @@ while True:
             pygame.display.update()
             
         pygame.draw.rect(screen, (0, 0, 0), [0, 440, 260, 80], 0)
-        my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
         outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
         outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
         outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
@@ -345,24 +344,14 @@ while True:
         pygame.display.update()
     
 
-        
         if not xiaoxiaole.can_continue():
             xiaoxiaole.get_blocks_left()
-            pygame.draw.rect(screen, (0, 0, 0), [0, 440, 260, 80], 0)
+            # pygame.draw.rect(screen, (0, 0, 0), [0, 440, 260, 80], 0)
             my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
-            outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
-            outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
-            outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
             outline4 = 'Blocks left : {0}'.format(xiaoxiaole.get_blocks_left())
             outline5 = 'Bonus points : +{0}'.format(xiaoxiaole.get_bonus())
-            out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
-            out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
-            out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
             out4 = my_font.render(outline4, True, (255, 255, 255))  # 一些字體設定
             out5 = my_font.render(outline5, True, (255, 255, 255))  # 一些字體設定
-            screen.blit(out1, (120, 470))  # 顯示這行字   
-            screen.blit(out2, (10, 450))  # 顯示這行字   
-            screen.blit(out3, (120, 450))  # 顯示這行字
             screen.blit(out4, (160, 180))  # 顯示這行字
             screen.blit(out5, (140, 200))  # 顯示這行字
             pygame.display.update()
