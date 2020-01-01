@@ -2,6 +2,8 @@
 加入最高紀錄
 先在指定路徑建立一個record.txt的檔案，寫入0
 之後每次玩，都會自動更新裡面的數字並顯示最高紀錄
+
+錢的部分註解完成
 '''
 
 import random
@@ -39,7 +41,7 @@ class Box(pygame.sprite.Sprite):
 
 class Xiaoxiaole:
     def __init__(self, group, score):
-        # 生成棋盘，傳入參數為精靈group
+        # 生成棋盤，傳入參數為精靈group
         self.level = 1
         self.scores = score
         self.blocks_left = 0
@@ -108,7 +110,7 @@ class Xiaoxiaole:
         return self.level
 
     def search(self, x, y):
-        # 獲取x y 節點附近的相同節點座標，如果没有相同的返回None
+        # 獲取x y 節點附近的相同節點座標，如果沒有相同的返回None
         point_value = self.chess[x][y][0]
         out = set()
         out.add((x, y))
@@ -140,7 +142,7 @@ class Xiaoxiaole:
         return self.deleteCnt
 
     def client(self, pos):
-        # 點擊座標點，如果有消除動作，則返回True，如果没有消除動作返回False
+        # 點擊座標點，如果有消除動作，則返回True，如果沒有消除動作返回False
         x = pos[0] // 40 - 1  # x -1
         y = 9 - (pos[1] // 40) + 1  # y+1
 
@@ -156,17 +158,17 @@ class Xiaoxiaole:
         if len(self.chess[x]) <= y:
             return False
 
-        # 搜索相鄰的節点，返回set
+        # 搜索相鄰的節點，返回set
         to_del_set = self.search(x, y)
         if not to_del_set:
             return False
 
-        # 更新分数
+        # 更新分數
         self.scores += pow(len(to_del_set), 2) * 5
 
         self.deleteCnt = len(to_del_set)
 
-        # 删除節點
+        # 刪除節點
         for point in to_del_set:
             self.group.remove(self.chess[point[0]][point[1]])
             #  處理在這個節點上部的移動標記
@@ -177,7 +179,7 @@ class Xiaoxiaole:
         for point in to_del:
             del self.chess[point[0]][point[1]]
 
-        # 删除空列
+        # 刪除空列
         for index, _ in enumerate(self.chess):
             if not self.chess[index]:
                 # 將右側所有節點向左移動一格
@@ -191,21 +193,22 @@ class Xiaoxiaole:
 
     def rearrange(self):
         self.deleteCnt = 0
-        group.empty()
-        i = len(self.chess)+1
+        group.empty()  # 先把整個group資料清空
+        i = len(self.chess) + 1  # 有幾直列
         j = [0] * i
         for x in range(1, i):
-            j[x] = len(self.chess[x-1])
+            j[x] = len(self.chess[x-1])  # 對於每一直列，紀錄它們分別有幾個方塊
         self.chess.clear()
         for x in range(1, i):
             x_line = []
             for y in range(j[x]):
+                # 窮舉每個方塊
                 pos = (40 * x, 40 * (10 - y))
-                color = random.randint(1, 5)
-                newBox = Box(Color[color], pos)
-                group.add(newBox)
+                color = random.randint(1, 5)  # 隨機一個顏色
+                newBox = Box(Color[color], pos)  # 將隨機的顏色填入新方塊
+                group.add(newBox)  # 將新方塊填入group
                 x_line.append((color, newBox))
-            self.chess.append(x_line)
+            self.chess.append(x_line)  # 將新方塊填入棋盤
         return True
 
     def tool_3(self):
@@ -229,7 +232,7 @@ class Xiaoxiaole:
 
         for index, _ in enumerate(self.chess):
             if not self.chess[index]:
-                # 将右侧所有节点向左移动一格
+                # 將右側所有節點向左移動一格
                 for x_line in range(index + 1, len(self.chess)):
                     for y_line in range(0, len(self.chess[x_line])):
                         self.chess[x_line][y_line][1].change_x += 1
@@ -530,15 +533,18 @@ while True:
                 pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 520], 0)
                 
                 if not xiaoxiaole.next_level(level):
-                    thisScore = xiaoxiaole.get_score()
+                    # 無法進行下一關時(失敗或已經玩到最後一關)
+                    thisScore = xiaoxiaole.get_score()  # 取出這次玩的分數
                     address = 'C:\\2019AutumnPBC\\project\\record.txt'
                     record = open(address, 'r', encoding='utf-8')
-                    bestScore = int(record.read())
+                    bestScore = int(record.read())  # 讀取txt檔案中的數字，並記為最高紀錄
                     if thisScore >= bestScore:
+                        # 若這次玩的分數大於最高紀錄，覆蓋它
                         bestScore = thisScore
                         record = open("record.txt", 'w')
                         record.write(str(bestScore))
-                        
+                    
+                    # 重新讀取txt中的最高紀錄並設定顯示的格式
                     address = 'C:\\2019AutumnPBC\\project\\record.txt'
                     record = open(address, 'r', encoding='utf-8')
                     bestScore = record.read()
