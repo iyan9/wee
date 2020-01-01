@@ -316,9 +316,10 @@ title = '消消樂'
 out = my_font.render(title, True, (255, 255, 255))  # 一些字體設定
 screen.blit(out, (155, 170))  # 顯示這行字
 
+'''顯示最高紀錄'''
 address = 'C:\\2019AutumnPBC\\project\\record.txt'
 record = open(address, 'r', encoding='utf-8')
-bestScore = record.read()
+bestScore = record.read()  # 從txt檔讀取最高紀錄
 my_font2 = pygame.font.SysFont("simsunnsimsun", 30)
 outline2 = 'Best Score : {0}'.format(bestScore)
 out2 = my_font2.render(outline2, True, (255, 255, 255))
@@ -533,18 +534,18 @@ while True:
                 pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 520], 0)
                 
                 if not xiaoxiaole.next_level(level):
-                    # 無法進行下一關時(失敗或已經玩到最後一關)
+                    '''無法進行下一關時(失敗或已經玩到最後一關)'''
                     thisScore = xiaoxiaole.get_score()  # 取出這次玩的分數
                     address = 'C:\\2019AutumnPBC\\project\\record.txt'
                     record = open(address, 'r', encoding='utf-8')
                     bestScore = int(record.read())  # 讀取txt檔案中的數字，並記為最高紀錄
                     if thisScore >= bestScore:
-                        # 若這次玩的分數大於最高紀錄，覆蓋它
+                        '''若這次玩的分數大於最高紀錄，覆蓋它'''
                         bestScore = thisScore
                         record = open("record.txt", 'w')
                         record.write(str(bestScore))
                     
-                    # 重新讀取txt中的最高紀錄並設定顯示的格式
+                    '''重新讀取txt中的最高紀錄並設定顯示的格式'''
                     address = 'C:\\2019AutumnPBC\\project\\record.txt'
                     record = open(address, 'r', encoding='utf-8')
                     bestScore = record.read()
