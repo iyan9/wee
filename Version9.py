@@ -205,7 +205,7 @@ class Xiaoxiaole:
                 group.add(newBox)  # 將新方塊填入group
                 x_line.append((color, newBox))
             self.chess.append(x_line)  # 將新方塊填入棋盤
-        self.scores += 500
+        # self.scores += 500
         return True
         
     def bomb_function(self, bombx, bomby):
@@ -303,7 +303,7 @@ class Xiaoxiaole:
         for index in range(len(self.chess) - 1, -1, -1):
             if not self.chess[index]:
                 del self.chess[index]
-        self.scores += 500
+        # self.scores += 500
         return True
 
 
@@ -330,10 +330,10 @@ class Button:
         screen.blit(self.icon, (self.posX, self.posY))
         return True
 
-    def mouse_down(self):
+    def mouse_down(self, color = (0, 0, 0)):
         if (self.posX < pygame.mouse.get_pos()[0] < self.posX + self.width and
             self.posY  < pygame.mouse.get_pos()[1] < self.posY + self.height):
-            pygame.draw.rect(screen, (0, 0, 0), [self.posX, self.posY, self.width, self.height], 0)
+            pygame.draw.rect(screen, color, [self.posX, self.posY, self.width, self.height], 0)
             pygame.display.update()
             self.posY += 5
             self.display()
@@ -342,9 +342,9 @@ class Button:
         else:
             return False
 
-    def mouse_up(self):
+    def mouse_up(self, color = (0, 0, 0)):
         if self.mouse_on_button == 'Yes':
-            pygame.draw.rect(screen, (0, 0, 0), [self.posX, self.posY, self.width, self.height], 0)
+            pygame.draw.rect(screen, color, [self.posX, self.posY, self.width, self.height], 0)
             pygame.display.update()
 
             self.posY -= 5
@@ -352,11 +352,6 @@ class Button:
             self.mouse_on_button = 'No'
             return True
         else:
-            pygame.draw.rect(screen, (0, 0, 0), [self.posX, self.posY, self.width, self.height], 0)
-            pygame.display.update()
-            self.posY -= 5
-            self.display()
-            self.mouse_on_button = 'No'
             return False
 
     def get_mouse_on_button(self):
@@ -375,21 +370,25 @@ clock = pygame.time.Clock()  # 設定遊戲時間
 pygame.event.set_allowed([QUIT, MOUSEBUTTONUP, MOUSEBUTTONDOWN, KEYDOWN])  # 設定哪些按鍵可以操作遊戲(結束, 滑鼠按鍵鬆開)
 
 '''設定開始介面的標題'''
-my_font = pygame.font.SysFont("simsunnsimsun", 60)  # 字體名稱, 字體大小
-title = '新年快樂消消樂'
-out = my_font.render(title, True, (255, 255, 255))  # 一些字體設定
-screen.blit(out, (25, 170))  # 顯示這行字
+pygame.draw.rect(screen, (63, 63, 63), [0, 0, 480, 520], 0)
+image = pygame.image.load('C:\\Users\\Matty\\Desktop\\消消樂.png')
+image.convert()
+screen.blit(image, (40,50))
+# my_font = pygame.font.SysFont("simsunnsimsun", 60)  # 字體名稱, 字體大小
+# title = '新年快樂消消樂'
+# out = my_font.render(title, True, (255, 255, 255))  # 一些字體設定
+# screen.blit(out, (25, 170))  # 顯示這行字
 
 '''顯示最高紀錄'''
 address = 'C:\\Users\\Matty\\Desktop\\record.txt'
 record = open(address, 'r', encoding='utf-8')
 bestScore = record.read()  # 從txt檔讀取最高紀錄
-my_font2 = pygame.font.SysFont("simsunnsimsun", 30)
+my_font2 = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 25)
 outline2 = 'Best Score : {0}'.format(bestScore)
 out2 = my_font2.render(outline2, True, (255, 255, 255))
-screen.blit(out2, (120, 480))
+screen.blit(out2, (110, 480))
 
-play_button = Button('C:\\Users\\Matty\\Desktop\\startButton.png', 145, 250, 200, 188)  # 設定「開始」按鈕的位置跟image
+play_button = Button('C:\\Users\\Matty\\Desktop\\startButton.png', 145, 290, 200, 188)  # 設定「開始」按鈕的位置跟image
 play_button.display()
 
 while True:  # 開始介面的PLAY按鈕
@@ -401,23 +400,24 @@ while True:  # 開始介面的PLAY按鈕
 
     elif event.type == MOUSEBUTTONDOWN:
         '''使用滑鼠時，PLAY按鈕的動畫'''
-        play_button.mouse_down()
+        play_button.mouse_down((63, 63, 63))
     elif event.type == MOUSEBUTTONUP:
-        if play_button.mouse_up():
+        if play_button.mouse_up((63, 63, 63)):
             pygame.time.wait(150)
             break
 
 pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 520], 0)
 group.draw(screen)
-my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
-outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
+my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 20)  # 字體名稱, 字體大小
+# my_font = pygame.font.Font('C:\\Users\\Matty\\Desktop\\Mosk Medium 500.ttf',20)
+outline1 = 'Score   : {0}'.format(xiaoxiaole.get_score())
 outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
 outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
 out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
 out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
 out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
 screen.blit(out1, (120, 470))  # 顯示這行字
-screen.blit(out2, (10, 450))  # 顯示這行字
+screen.blit(out2, (20, 450))  # 顯示這行字
 screen.blit(out3, (120, 450))  # 顯示這行字
 help_button = Button("C:\\Users\\Matty\\Desktop\\helpIcon.png", 440, 5, 30, 30)
 pygame.display.update()  # 顯示最新更新
@@ -428,7 +428,7 @@ while True:
         while True:  # 遊戲介面
             clock.tick(30)
 
-            restart_button = Button("C:\\Users\\Matty\\Desktop\\restartButton.png", 180, 260, 100, 100)  # 設定「重新開始」按鈕的位置跟image
+            restart_button = Button("C:\\Users\\Matty\\Desktop\\restartButton.png", 190, 260, 100, 100)  # 設定「重新開始」按鈕的位置跟image
             help_button.display()
 
             event = pygame.event.wait()  # 獲取一個事件
@@ -436,9 +436,9 @@ while True:
                 exit()
 
             elif event.type == MOUSEBUTTONDOWN:
+                delcolor_button = Button("C:\\Users\\Matty\\Desktop\\delcolorIcon.png", 295, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+                bomb_button = Button("C:\\Users\\Matty\\Desktop\\bombIcon.png", 355, 450, 50, 50)
                 switch_button = Button("C:\\Users\\Matty\\Desktop\\switchIcon.png", 400, 450, 50, 50)  # 設定「重新整理」道具按鈕的位置跟image
-                delcolor_button = Button("C:\\Users\\Matty\\Desktop\\delcolorIcon.png", 300, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
-                bomb_button = Button("C:\\Users\\Matty\\Desktop\\bombIcon.png", 350, 450, 50, 50)
                 if switch_button.mouse_down():
                     continue
                 elif delcolor_button.mouse_down():
@@ -459,7 +459,6 @@ while True:
                         pygame.display.update()
 
                 elif delcolor_button.get_mouse_on_button() == 'Yes':
-                    
                     if delcolor_button.mouse_up():
                         xiaoxiaole.tool_3()
                         group.update()
@@ -492,28 +491,28 @@ while True:
                     switch_button = Button("C:\\Users\\Matty\\Desktop\\switchIcon.png", 400, 450, 50, 50)  # 設定「重新整理」道具按鈕的位置跟image
                     switch_button.display()
                 elif 12 <= xiaoxiaole.delete_cnt() < 15:
-                    bomb_button = Button("C:\\Users\\Matty\\Desktop\\bombIcon.png", 350, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+                    bomb_button = Button("C:\\Users\\Matty\\Desktop\\bombIcon.png", 355, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
                     bomb_button.display()
                 elif 15 <= xiaoxiaole.delete_cnt():
-                    delcolor_button = Button("C:\\Users\\Matty\\Desktop\\delcolorIcon.png", 300, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+                    delcolor_button = Button("C:\\Users\\Matty\\Desktop\\delcolorIcon.png", 295, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
                     delcolor_button.display()
 
-                pygame.draw.rect(screen, (0, 0, 0), [0, 440, 260, 80], 0)
-                outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
+                pygame.draw.rect(screen, (0, 0, 0), [0, 440, 280, 80], 0)
+                outline1 = 'Score   : {0}'.format(xiaoxiaole.get_score())
                 outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
                 outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
                 out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
                 out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
                 out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
                 screen.blit(out1, (120, 470))  # 顯示這行字
-                screen.blit(out2, (10, 450))  # 顯示這行字
+                screen.blit(out2, (20, 450))  # 顯示這行字
                 screen.blit(out3, (120, 450))  # 顯示這行字
                 pygame.display.update()
 
                 if not xiaoxiaole.can_continue():
                     xiaoxiaole.get_blocks_left()
                     # pygame.draw.rect(screen, (0, 0, 0), [0, 440, 260, 80], 0)
-                    my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
+                    my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 20)  # 字體名稱, 字體大小
                     outline4 = 'Blocks left : {0}'.format(xiaoxiaole.get_blocks_left())
                     outline5 = 'Bonus points : +{0}'.format(xiaoxiaole.get_bonus())
                     out4 = my_font.render(outline4, True, (255, 255, 255))  # 一些字體設定
@@ -540,7 +539,7 @@ while True:
                         address = 'C:\\Users\\Matty\\Desktop\\record.txt'
                         record = open(address, 'r', encoding='utf-8')
                         bestScore = record.read()
-                        my_font2 = pygame.font.SysFont("simsunnsimsun", 30)
+                        my_font2 = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 30)
                         
                         
                         if level == 7:    # 若7關全過，出現「獲勝」畫面
@@ -548,13 +547,13 @@ while True:
                             group.empty()
                             group.clear(screen, bg)
                             group.draw(screen)  # 清空螢幕
-                            my_font = pygame.font.SysFont("simsunnsimsun", 24)  # 字體名稱, 字體大小
-                            outline = 'SCORE：{0}'.format(xiaoxiaole.get_score())
-                            out = my_font.render(outline, True, (255, 255, 255))  # 一些字體設定
-                            screen.blit(out, (170, 180))  # 顯示這行字
+                            my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 24)  # 字體名稱, 字體大小
+                            outline = 'SCORE : {0}'.format(xiaoxiaole.get_score())
+                            out = my_font2.render(outline, True, (255, 255, 255))  # 一些字體設定
+                            screen.blit(out, (150, 180))  # 顯示這行字
                             outline2 = 'Best Score  : {0}'.format(bestScore)
                             out2 = my_font2.render(outline2, True, (255, 255, 255))
-                            screen.blit(out2, (120, 400))
+                            screen.blit(out2, (100, 130))
                             restart_button.display()
                             pygame.display.update()
                             function = 'restart'
@@ -565,13 +564,13 @@ while True:
                             group.empty()
                             group.clear(screen, bg)
                             group.draw(screen)  # 清空螢幕
-                            my_font = pygame.font.SysFont("simsunnsimsun", 24)  # 字體名稱, 字體大小
-                            outline = 'SCORE：{0}'.format(xiaoxiaole.get_score())
-                            out = my_font.render(outline, True, (255, 255, 255))  # 一些字體設定
-                            screen.blit(out, (170, 180))  # 顯示這行字
+                            my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 24)  # 字體名稱, 字體大小
+                            outline = 'SCORE : {0}'.format(xiaoxiaole.get_score())
+                            out = my_font2.render(outline, True, (255, 255, 255))  # 一些字體設定
+                            screen.blit(out, (150, 180))  # 顯示這行字
                             outline2 = 'Best Score  : {0}'.format(bestScore)
                             out2 = my_font2.render(outline2, True, (255, 255, 255))
-                            screen.blit(out2, (120, 400))
+                            screen.blit(out2, (100, 130))
                             restart_button.display()
                             pygame.display.update()
                             function = 'restart'
@@ -584,15 +583,15 @@ while True:
                         xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
                         group.draw(screen)
                         pygame.draw.rect(screen, (0, 0, 0), [0, 440, 480, 80], 0)
-                        my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
-                        outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
+                        my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 20)  # 字體名稱, 字體大小
+                        outline1 = 'Score   : {0}'.format(xiaoxiaole.get_score())
                         outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
                         outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
                         out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
                         out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
                         out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
                         screen.blit(out1, (120, 470))  # 顯示這行字
-                        screen.blit(out2, (10, 450))  # 顯示這行字
+                        screen.blit(out2, (20, 450))  # 顯示這行字
                         screen.blit(out3, (120, 450))  # 顯示這行字
                         pygame.display.update()
 
@@ -604,15 +603,15 @@ while True:
                     group = pygame.sprite.Group()  # 建立一組動畫
                     xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
                     group.draw(screen)
-                    my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
-                    outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
+                    my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 20)  # 字體名稱, 字體大小
+                    outline1 = 'Score   : {0}'.format(xiaoxiaole.get_score())
                     outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
                     outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
                     out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
                     out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
                     out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
                     screen.blit(out1, (120, 470))  # 顯示這行字
-                    screen.blit(out2, (10, 450))  # 顯示這行字
+                    screen.blit(out2, (20, 450))  # 顯示這行字
                     screen.blit(out3, (120, 450))  # 顯示這行字
                     pygame.display.update()  # 顯示最新更新
         while function == 'bomb':  # 放置bomb
@@ -625,6 +624,16 @@ while True:
                 bombx = bomblocat[0]
                 bomby = bomblocat[1]
                 xiaoxiaole.bomb_function(bombx, bomby)
+                pygame.draw.rect(screen, (0, 0, 0), [0, 440, 280, 80], 0)
+                outline1 = 'Score   : {0}'.format(xiaoxiaole.get_score())
+                outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
+                outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
+                out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
+                out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
+                out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
+                screen.blit(out1, (120, 470))  # 顯示這行字
+                screen.blit(out2, (20, 450))  # 顯示這行字
+                screen.blit(out3, (120, 450))  # 顯示這行字
                 group.update()
                 group.clear(screen, bg)
                 group.draw(screen)
@@ -637,8 +646,11 @@ while True:
             pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 520], 0)  # 畫一塊黑色長方形覆蓋掉開始介面
 
             '''設定字體名稱, 字體大小'''
+            # my_font_title = pygame.font.Font('C:\\Users\\Matty\\Desktop\\Mosk Medium 500.ttf',40)
+            # my_font = pygame.font.Font('C:\\Users\\Matty\\Desktop\\Mosk Medium 500.ttf',20)
             my_font_title = pygame.font.SysFont("simsunnsimsun", 40)
             my_font = pygame.font.SysFont("simsunnsimsun", 20)
+            my_font2 = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 20)
 
             outline1 = '遊戲方法'
             outline2 = '點擊相鄰的同色方塊來消除方塊'
@@ -646,6 +658,9 @@ while True:
             outline4 = '一次消除的方塊數量越多，獲得的分數會越高'
             outline5 = '在回合結束時，會計算畫面上剩下的方塊數量'
             outline6 = '剩下越少方塊，則可以加的分數越多，max 1000分'
+            outline14 = '當分數達到target score，則可以進入下一關'
+            
+
             outline7 = '遊戲道具'
             outline8 = '重新整理：一次消除9塊可以獲得'
             outline9 = '          讓畫面上的所有方塊顏色隨機變化'
@@ -654,6 +669,9 @@ while True:
             outline12 = '同色消除：一次消除15塊可以獲得'
             outline13 = '          隨機將畫面上任一色的所有方塊全消除'
 
+            outline15 = '         Click or SPACE to continue'
+            
+
             '''一些字體設定'''
             out1 = my_font_title.render(outline1, True, (255, 255, 255))
             out2 = my_font.render(outline2, True, (255, 255, 255))
@@ -661,6 +679,8 @@ while True:
             out4 = my_font.render(outline4, True, (255, 255, 255))
             out5 = my_font.render(outline5, True, (255, 255, 255))
             out6 = my_font.render(outline6, True, (255, 255, 255))
+            out14 = my_font.render(outline14, True, (255, 255, 255))
+
             out7 = my_font_title.render(outline7, True, (255, 255, 255))
             out8 = my_font.render(outline8, True, (255, 255, 255))
             out9 = my_font.render(outline9, True, (255, 255, 255))
@@ -669,20 +689,26 @@ while True:
             out12 = my_font.render(outline12, True, (255, 255, 255))
             out13 = my_font.render(outline13, True, (255, 255, 255))
 
+            out15 = my_font2.render(outline15, True, (150, 150, 150))
+
             '''把文字顯示在面上'''
-            screen.blit(out1, (25, 40))
-            screen.blit(out2, (25, 90))
-            screen.blit(out3, (25, 120))
-            screen.blit(out4, (25, 150))
-            screen.blit(out5, (25, 180))
-            screen.blit(out6, (25, 210))
-            screen.blit(out7, (25, 260))
-            screen.blit(out8, (25, 310))
-            screen.blit(out9, (25, 340))
-            screen.blit(out10, (25, 380))
-            screen.blit(out11, (25, 410))
-            screen.blit(out12, (25, 440))
-            screen.blit(out13, (25, 470))
+            screen.blit(out1, (20, 30))
+            screen.blit(out2, (20, 75))
+            screen.blit(out3, (20, 100))
+            screen.blit(out4, (20, 125))
+            screen.blit(out5, (20, 150))
+            screen.blit(out6, (20, 175))
+            screen.blit(out14, (20, 200))
+
+            screen.blit(out7, (20, 255))
+            screen.blit(out8, (20, 300))
+            screen.blit(out9, (20, 325))
+            screen.blit(out10, (20, 355))
+            screen.blit(out11, (20, 380))
+            screen.blit(out12, (20, 410))
+            screen.blit(out13, (20, 435))
+
+            screen.blit(out15, (20, 490))
 
             pygame.display.update()  # 顯示最新更新
 
@@ -692,15 +718,15 @@ while True:
             elif event.type == MOUSEBUTTONUP:
                 pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 520], 0)
                 group.draw(screen)
-                my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
-                outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
+                my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 20)  # 字體名稱, 字體大小
+                outline1 = 'Score   : {0}'.format(xiaoxiaole.get_score())
                 outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
                 outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
                 out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
                 out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
                 out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
                 screen.blit(out1, (120, 470))  # 顯示這行字
-                screen.blit(out2, (10, 450))  # 顯示這行字
+                screen.blit(out2, (20, 450))  # 顯示這行字
                 screen.blit(out3, (120, 450))  # 顯示這行字
                 pygame.display.update()  # 顯示最新更新
                 function = 'none'
@@ -709,15 +735,15 @@ while True:
                 if event.key == K_SPACE:
                     pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 520], 0)
                     group.draw(screen)
-                    my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
-                    outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
+                    my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 20)  # 字體名稱, 字體大小
+                    outline1 = 'Score   : {0}'.format(xiaoxiaole.get_score())
                     outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
                     outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
                     out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
                     out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
                     out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
                     screen.blit(out1, (120, 470))  # 顯示這行字
-                    screen.blit(out2, (10, 450))  # 顯示這行字
+                    screen.blit(out2, (20, 450))  # 顯示這行字
                     screen.blit(out3, (120, 450))  # 顯示這行字
                     pygame.display.update()  # 顯示最新更新
                     function = 'none'
@@ -744,15 +770,15 @@ while True:
                 group = pygame.sprite.Group()  # 建立一組動畫
                 xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
                 group.draw(screen)
-                my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
-                outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
+                my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 20)  # 字體名稱, 字體大小
+                outline1 = 'Score   : {0}'.format(xiaoxiaole.get_score())
                 outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
                 outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
                 out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
                 out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
                 out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
                 screen.blit(out1, (120, 470))  # 顯示這行字
-                screen.blit(out2, (10, 450))  # 顯示這行字
+                screen.blit(out2, (20, 450))  # 顯示這行字
                 screen.blit(out3, (120, 450))  # 顯示這行字
                 pygame.display.update()  # 顯示最新更新
                 break
@@ -765,15 +791,15 @@ while True:
                 group = pygame.sprite.Group()  # 建立一組動畫
                 xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
                 group.draw(screen)
-                my_font = pygame.font.SysFont("simsunnsimsun", 20)  # 字體名稱, 字體大小
-                outline1 = 'Score  : {0}'.format(xiaoxiaole.get_score())
+                my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 20)  # 字體名稱, 字體大小
+                outline1 = 'Score   : {0}'.format(xiaoxiaole.get_score())
                 outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
                 outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
                 out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
                 out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
                 out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
                 screen.blit(out1, (120, 470))  # 顯示這行字
-                screen.blit(out2, (10, 450))  # 顯示這行字
+                screen.blit(out2, (20, 450))  # 顯示這行字
                 screen.blit(out3, (120, 450))  # 顯示這行字
                 pygame.display.update()  # 顯示最新更新
                 break
