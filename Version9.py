@@ -205,7 +205,7 @@ class Xiaoxiaole:
                 group.add(newBox)  # 將新方塊填入group
                 x_line.append((color, newBox))
             self.chess.append(x_line)  # 將新方塊填入棋盤
-        # self.scores += 500
+        self.scores += 500
         return True
         
     def bomb_function(self, bombx, bomby):
@@ -303,7 +303,7 @@ class Xiaoxiaole:
         for index in range(len(self.chess) - 1, -1, -1):
             if not self.chess[index]:
                 del self.chess[index]
-        # self.scores += 500
+        self.scores += 500
         return True
 
 
@@ -386,7 +386,7 @@ bestScore = record.read()  # 從txt檔讀取最高紀錄
 my_font2 = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 25)
 outline2 = 'Best Score : {0}'.format(bestScore)
 out2 = my_font2.render(outline2, True, (255, 255, 255))
-screen.blit(out2, (110, 480))
+screen.blit(out2, (120, 480))
 
 play_button = Button('C:\\Users\\Matty\\Desktop\\startButton.png', 145, 290, 200, 188)  # 設定「開始」按鈕的位置跟image
 play_button.display()
