@@ -369,6 +369,11 @@ xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
 clock = pygame.time.Clock()  # 設定遊戲時間
 pygame.event.set_allowed([QUIT, MOUSEBUTTONUP, MOUSEBUTTONDOWN, KEYDOWN])  # 設定哪些按鍵可以操作遊戲(結束, 滑鼠按鍵鬆開)
 
+# '''加载背景音乐'''
+# pygame.mixer.music.load(music_base_path + "music.mp3")
+# pygame.mixer.music.set_volume(0.1)
+# pygame.mixer.music.play(-1, 0)
+
 '''設定開始介面的標題'''
 pygame.draw.rect(screen, (63, 63, 63), [0, 0, 480, 520], 0)
 image = pygame.image.load('C:\\Users\\Matty\\Desktop\\消消樂.png')
@@ -422,6 +427,13 @@ screen.blit(out3, (120, 450))  # 顯示這行字
 help_button = Button("C:\\Users\\Matty\\Desktop\\helpIcon.png", 440, 5, 30, 30)
 pygame.display.update()  # 顯示最新更新
 function = 'none'
+
+# switch_button = Button("C:\\Users\\Matty\\Desktop\\switchIcon.png", 400, 450, 50, 50)  # 設定「重新整理」道具按鈕的位置跟image
+# switch_button.display()
+# bomb_button = Button("C:\\Users\\Matty\\Desktop\\bombIcon.png", 355, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+# bomb_button.display()
+# delcolor_button = Button("C:\\Users\\Matty\\Desktop\\delcolorIcon.png", 295, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+# delcolor_button.display()
 
 while True:
     while True:
