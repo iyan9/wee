@@ -240,6 +240,7 @@ class Xiaoxiaole:
         for index in range(len(self.chess) - 1, -1, -1):
             if not self.chess[index]:
                 del self.chess[index]
+        self.scores += 1000
         return True
 
 
@@ -311,7 +312,7 @@ out = my_font.render(title, True, (255, 255, 255))  # 一些字體設定
 screen.blit(out, (155, 170))  # 顯示這行字
 
 '''顯示最高紀錄'''
-address = 'C:\\Users\\Matty\\Desktop\\商管程式設計\\wee\\record.txt'
+address = 'C:\\Users\\Matty\\Desktop\\record.txt'
 record = open(address, 'r', encoding='utf-8')
 bestScore = record.read()  # 從txt檔讀取最高紀錄
 my_font2 = pygame.font.SysFont("simsunnsimsun", 30)
