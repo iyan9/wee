@@ -205,6 +205,7 @@ class Xiaoxiaole:
                 group.add(newBox)  # 將新方塊填入group
                 x_line.append((color, newBox))
             self.chess.append(x_line)  # 將新方塊填入棋盤
+        self.scores += 500
         return True
         
     def bomb_function(self, bombx, bomby):
@@ -240,7 +241,6 @@ class Xiaoxiaole:
         neighboring.append([now[0] + 1, now[1] - 1]) #右下
         neighboring.append([now[0], now[1] - 1]) #下
         neighboring.append([now[0] - 1, now[1] + 1]) #左上
-        print(neighboring)
 
         chess_len = len(self.chess)
         to_bomb = []
@@ -271,6 +271,7 @@ class Xiaoxiaole:
         for index in range(len(self.chess) - 1, -1, -1):
             if not self.chess[index]:
                 del self.chess[index]
+        self.scores += 500
         return True
 
     def tool_3(self):
@@ -302,6 +303,7 @@ class Xiaoxiaole:
         for index in range(len(self.chess) - 1, -1, -1):
             if not self.chess[index]:
                 del self.chess[index]
+        self.scores += 500
         return True
 
 
@@ -489,8 +491,11 @@ while True:
                 if 9 <= xiaoxiaole.delete_cnt() < 12:
                     switch_button = Button("C:\\Users\\Matty\\Desktop\\switchIcon.png", 400, 450, 50, 50)  # 設定「重新整理」道具按鈕的位置跟image
                     switch_button.display()
-                elif xiaoxiaole.delete_cnt() >= 15:
-                    delcolor_button = Button("C:\\Users\\Matty\\Desktop\\delcolorIcon.png", 350, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+                elif 12 <= xiaoxiaole.delete_cnt() < 15:
+                    bomb_button = Button("C:\\Users\\Matty\\Desktop\\bombIcon.png", 350, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+                    bomb_button.display()
+                elif 15 <= xiaoxiaole.delete_cnt():
+                    delcolor_button = Button("C:\\Users\\Matty\\Desktop\\delcolorIcon.png", 300, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
                     delcolor_button.display()
 
                 pygame.draw.rect(screen, (0, 0, 0), [0, 440, 260, 80], 0)
@@ -552,6 +557,7 @@ while True:
                             screen.blit(out2, (120, 400))
                             restart_button.display()
                             pygame.display.update()
+                            function = 'restart'
                             break
 
                         else:  # 若沒達關卡目標分數，出現「失敗」畫面
@@ -568,6 +574,7 @@ while True:
                             screen.blit(out2, (120, 400))
                             restart_button.display()
                             pygame.display.update()
+                            function = 'restart'
                             break
 
                     else:  # 若達成關卡目標，前進下一關
@@ -715,6 +722,9 @@ while True:
                     pygame.display.update()  # 顯示最新更新
                     function = 'none'
                     break
+        if function == 'restart':
+            function = 'none'
+            break
     while True:  # restart介面
         clock.tick(30)
 
