@@ -448,7 +448,7 @@ while True:
                         if thisScore >= bestScore:
                             '''若這次玩的分數大於最高紀錄，覆蓋它'''
                             bestScore = thisScore
-                            record = open("C:\\Users\\Matty\\Desktop\\record.txt", 'w')
+                            record = open(address, 'w', encoding='utf-8')
                             record.write(str(bestScore))
                         
                         '''重新讀取txt中的最高紀錄並設定顯示的格式'''
