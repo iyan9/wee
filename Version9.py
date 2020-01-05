@@ -205,7 +205,7 @@ class Xiaoxiaole:
                 group.add(newBox)  # 將新方塊填入group
                 x_line.append((color, newBox))
             self.chess.append(x_line)  # 將新方塊填入棋盤
-        self.scores += 500
+        # self.scores += 500
         return True
         
     def bomb_function(self, bombx, bomby):
@@ -271,7 +271,7 @@ class Xiaoxiaole:
         for index in range(len(self.chess) - 1, -1, -1):
             if not self.chess[index]:
                 del self.chess[index]
-        self.scores += 500
+        # self.scores += 500
         return True
 
     def tool_3(self):
@@ -303,7 +303,7 @@ class Xiaoxiaole:
         for index in range(len(self.chess) - 1, -1, -1):
             if not self.chess[index]:
                 del self.chess[index]
-        self.scores += 500
+        # self.scores += 500
         return True
 
 
@@ -369,11 +369,6 @@ xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
 clock = pygame.time.Clock()  # 設定遊戲時間
 pygame.event.set_allowed([QUIT, MOUSEBUTTONUP, MOUSEBUTTONDOWN, KEYDOWN])  # 設定哪些按鍵可以操作遊戲(結束, 滑鼠按鍵鬆開)
 
-# '''加载背景音乐'''
-# pygame.mixer.music.load(music_base_path + "music.mp3")
-# pygame.mixer.music.set_volume(0.1)
-# pygame.mixer.music.play(-1, 0)
-
 '''設定開始介面的標題'''
 pygame.draw.rect(screen, (63, 63, 63), [0, 0, 480, 520], 0)
 image = pygame.image.load('C:\\Users\\Matty\\Desktop\\消消樂.png')
@@ -397,6 +392,10 @@ play_button = Button('C:\\Users\\Matty\\Desktop\\startButton.png', 145, 290, 200
 play_button.display()
 
 while True:  # 開始介面的PLAY按鈕
+    '''加载背景音乐'''
+    pygame.mixer.music.load('C:\\Users\\Matty\\Desktop\\1.mp3')
+    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.play(-1, 0)
     clock.tick(30)
 
     event = pygame.event.wait()  # 獲取一個事件
@@ -436,6 +435,9 @@ function = 'none'
 # delcolor_button.display()
 
 while True:
+    pygame.mixer.music.load('C:\\Users\\Matty\\Desktop\\1.mp3')
+    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.play(-1, 0)
     while True:
         while True:  # 遊戲介面
             clock.tick(30)
@@ -569,6 +571,10 @@ while True:
                             restart_button.display()
                             pygame.display.update()
                             function = 'restart'
+                            '''加载背景音乐'''
+                            pygame.mixer.music.load('C:\\Users\\Matty\\Desktop\\success.mp3')
+                            pygame.mixer.music.set_volume(0.3)
+                            pygame.mixer.music.play(0, 0)
                             break
 
                         else:  # 若沒達關卡目標分數，出現「失敗」畫面
@@ -586,6 +592,10 @@ while True:
                             restart_button.display()
                             pygame.display.update()
                             function = 'restart'
+                            '''加载背景音乐'''
+                            pygame.mixer.music.load('C:\\Users\\Matty\\Desktop\\fail.mp3')
+                            pygame.mixer.music.set_volume(0.3)
+                            pygame.mixer.music.play(0, 0)
                             break
 
                     else:  # 若達成關卡目標，前進下一關
