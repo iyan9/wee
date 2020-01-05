@@ -10,6 +10,7 @@ Color = {
     3: (255, 128, 191),
     4: (255, 253, 208),
     5: (77, 128, 230)
+}
 
 
 class Box(pygame.sprite.Sprite):
@@ -308,18 +309,10 @@ class Button:
         self.mouse_on_button = 'No'
         self.on_off = 'Off'
 
-    def turnon(self):
-        self.on_off = 'On'
-        return self.on_off
-
-    def turnoff(self):
-        self.on_off = 'Off'
-        return self.on_off
-
     def display(self):
         screen.blit(self.icon, (self.posX, self.posY))
         pygame.display.update()
-        self.turnon()
+        self.on_off = 'On'
         return True
 
     def disappear(self):
@@ -327,7 +320,7 @@ class Button:
         self.icon = pygame.Surface([self.width, self.height])
         self.icon.fill([0, 0, 0])
         screen.blit(self.icon, (self.posX, self.posY))
-        self.turnoff()
+        self.on_off = 'Off'
         return True
 
     def mouse_down(self, color=(0, 0, 0)):
@@ -375,7 +368,7 @@ bg.fill([0, 0, 0])  # 填滿黑色
 group = pygame.sprite.Group()  # 建立一組動畫
 xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
 clock = pygame.time.Clock()  # 設定遊戲時間
-pygame.event.set_allowed([QUIT, MOUSEBUTTONUP, MOUSEBUTTONDOWN, KEYDOWN])  # 設定哪些按鍵可以操作遊戲(結束, 滑鼠按鍵鬆開)
+pygame.event.set_allowed([QUIT, MOUSEBUTTONUP, MOUSEBUTTONDOWN, KEYDOWN, KEYUP])  # 設定哪些按鍵可以操作遊戲(結束, 滑鼠按鍵鬆開)
 
 '''顯示最高紀錄'''
 address = 'C:\\Users\\Matty\\Desktop\\record.txt'
@@ -774,27 +767,6 @@ while True:
             if restart_button.mouse_up():
                 pygame.time.wait(150)
                 pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 520], 0)
-                level = 1
-                score = 0
-                group = pygame.sprite.Group()  # 建立一組動畫
-                xiaoxiaole = Xiaoxiaole(group, score)  # 消消樂遊戲放入動畫組
-                group.draw(screen)
-                my_font = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 20)  # 字體名稱, 字體大小
-                outline1 = 'Score   : {0}'.format(xiaoxiaole.get_score())
-                outline2 = 'Level : {0}'.format(xiaoxiaole.get_level())
-                outline3 = 'Target : {0}'.format(xiaoxiaole.get_target(level))
-                out1 = my_font.render(outline1, True, (255, 255, 255))  # 一些字體設定
-                out2 = my_font.render(outline2, True, (255, 255, 255))  # 一些字體設定
-                out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
-                screen.blit(out1, (120, 470))  # 顯示這行字
-                screen.blit(out2, (20, 450))  # 顯示這行字
-                screen.blit(out3, (120, 450))  # 顯示這行字
-                pygame.display.update()  # 顯示最新更新
-                break
-
-        elif event.type == KEYUP:
-            if event.key == K_SPACE:
-                pygame.draw.rect(screen, (0, 0, 0), [0, 0, 480, 520], 0)  # 填滿黑色
                 level = 1
                 score = 0
                 group = pygame.sprite.Group()  # 建立一組動畫
