@@ -380,7 +380,7 @@ screen.blit(image, (40,50))
 # screen.blit(out, (25, 170))  # 顯示這行字
 
 '''顯示最高紀錄'''
-address = 'C:\\Users\\Matty\\Desktop\\record.txt'
+address = 'C:\\Users\\misschen\\Desktop\\record.txt'
 record = open(address, 'r', encoding='utf-8')
 bestScore = record.read()  # 從txt檔讀取最高紀錄
 my_font2 = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 25)
@@ -388,7 +388,11 @@ outline2 = 'Best Score : {0}'.format(bestScore)
 out2 = my_font2.render(outline2, True, (255, 255, 255))
 screen.blit(out2, (120, 480))
 
+<<<<<<< HEAD
+play_button = Button('C:\\Users\\misschen\\Documents\\GitHub\\wee\\startButton.png', 145, 250, 200, 188)  # 設定「開始」按鈕的位置跟image
+=======
 play_button = Button('C:\\Users\\Matty\\Desktop\\startButton.png', 145, 290, 200, 188)  # 設定「開始」按鈕的位置跟image
+>>>>>>> b0a91bba0a19393b082b46f68b5d957960fed38d
 play_button.display()
 
 while True:  # 開始介面的PLAY按鈕
@@ -423,7 +427,7 @@ out3 = my_font.render(outline3, True, (255, 255, 255))  # 一些字體設定
 screen.blit(out1, (120, 470))  # 顯示這行字
 screen.blit(out2, (20, 450))  # 顯示這行字
 screen.blit(out3, (120, 450))  # 顯示這行字
-help_button = Button("C:\\Users\\Matty\\Desktop\\helpIcon.png", 440, 5, 30, 30)
+help_button = Button("C:\\Users\\misschen\\Documents\\GitHub\\wee\\helpIcon.png", 440, 5, 30, 30)
 pygame.display.update()  # 顯示最新更新
 function = 'none'
 
@@ -442,7 +446,11 @@ while True:
         while True:  # 遊戲介面
             clock.tick(30)
 
+<<<<<<< HEAD
+            restart_button = Button("C:\\Users\\misschen\\Documents\\GitHub\\wee\\restartButton.png", 180, 260, 100, 100)  # 設定「重新開始」按鈕的位置跟image
+=======
             restart_button = Button("C:\\Users\\Matty\\Desktop\\restartButton.png", 190, 260, 100, 100)  # 設定「重新開始」按鈕的位置跟image
+>>>>>>> b0a91bba0a19393b082b46f68b5d957960fed38d
             help_button.display()
 
             event = pygame.event.wait()  # 獲取一個事件
@@ -450,9 +458,15 @@ while True:
                 exit()
 
             elif event.type == MOUSEBUTTONDOWN:
+<<<<<<< HEAD
+                switch_button = Button("C:\\Users\\misschen\\Documents\\GitHub\\wee\\switchIcon.png", 400, 450, 50, 50)  # 設定「重新整理」道具按鈕的位置跟image
+                delcolor_button = Button("C:\\Users\\misschen\\Documents\\GitHub\\wee\\delcolorIcon.png", 300, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+                bomb_button = Button("C:\\Users\\misschen\\Documents\\GitHub\\wee\\bombIcon.png", 350, 450, 50, 50)
+=======
                 delcolor_button = Button("C:\\Users\\Matty\\Desktop\\delcolorIcon.png", 295, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
                 bomb_button = Button("C:\\Users\\Matty\\Desktop\\bombIcon.png", 355, 450, 50, 50)
                 switch_button = Button("C:\\Users\\Matty\\Desktop\\switchIcon.png", 400, 450, 50, 50)  # 設定「重新整理」道具按鈕的位置跟image
+>>>>>>> b0a91bba0a19393b082b46f68b5d957960fed38d
                 if switch_button.mouse_down():
                     continue
                 elif delcolor_button.mouse_down():
@@ -502,13 +516,20 @@ while True:
                     pygame.display.update()
 
                 if 9 <= xiaoxiaole.delete_cnt() < 12:
-                    switch_button = Button("C:\\Users\\Matty\\Desktop\\switchIcon.png", 400, 450, 50, 50)  # 設定「重新整理」道具按鈕的位置跟image
+                    switch_button = Button("C:\\Users\\misschen\\Documents\\GitHub\\wee\\switchIcon.png", 400, 450, 50, 50)  # 設定「重新整理」道具按鈕的位置跟image
                     switch_button.display()
                 elif 12 <= xiaoxiaole.delete_cnt() < 15:
+<<<<<<< HEAD
+                    bomb_button = Button("C:\\Users\\misschen\\Documents\\GitHub\\wee\\bombIcon.png", 350, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+                    bomb_button.display()
+                elif 15 <= xiaoxiaole.delete_cnt():
+                    delcolor_button = Button("C:\\Users\\misschen\\Documents\\GitHub\\wee\\delcolorIcon.png", 300, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+=======
                     bomb_button = Button("C:\\Users\\Matty\\Desktop\\bombIcon.png", 355, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
                     bomb_button.display()
                 elif 15 <= xiaoxiaole.delete_cnt():
                     delcolor_button = Button("C:\\Users\\Matty\\Desktop\\delcolorIcon.png", 295, 450, 50, 50)  # 設定「消除隨機一色的所有方塊」道具按鈕的位置跟image
+>>>>>>> b0a91bba0a19393b082b46f68b5d957960fed38d
                     delcolor_button.display()
 
                 pygame.draw.rect(screen, (0, 0, 0), [0, 440, 280, 80], 0)
@@ -540,7 +561,7 @@ while True:
                     if not xiaoxiaole.next_level(level):
                         '''無法進行下一關時(失敗或已經玩到最後一關)'''
                         thisScore = xiaoxiaole.get_score()  # 取出這次玩的分數
-                        address = 'C:\\Users\\Matty\\Desktop\\record.txt'
+                        address = 'C:\\Users\\misschen\\Desktop\\record.txt'
                         record = open(address, 'r', encoding='utf-8')
                         bestScore = int(record.read())  # 讀取txt檔案中的數字，並記為最高紀錄
                         if thisScore >= bestScore:
@@ -550,7 +571,7 @@ while True:
                             record.write(str(bestScore))
                         
                         '''重新讀取txt中的最高紀錄並設定顯示的格式'''
-                        address = 'C:\\Users\\Matty\\Desktop\\record.txt'
+                        address = 'C:\\Users\\misschen\\Desktop\\record.txt'
                         record = open(address, 'r', encoding='utf-8')
                         bestScore = record.read()
                         my_font2 = pygame.font.SysFont("sitkasmallsitkatextsitkasubheadingsitkaheadingsitkadisplaysitkabanner", 30)
